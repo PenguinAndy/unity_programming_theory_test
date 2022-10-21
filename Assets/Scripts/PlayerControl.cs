@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     private float forwardSpeed = 10.0f;
-    private float rotateSpeed = 45.0f;
+    private float rotateSpeed = 90.0f;
 
 
     // Start is called before the first frame update
@@ -24,6 +24,7 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+
     }
 
     //  use s/w key to let user moved
