@@ -7,6 +7,12 @@ public class Cow : Enemy
     private float speed = 3.0f;
     private int sleep = 3;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        score = 6;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {

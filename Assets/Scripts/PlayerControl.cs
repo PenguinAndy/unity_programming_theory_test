@@ -6,7 +6,14 @@ public class PlayerControl : MonoBehaviour
 {
     private float forwardSpeed = 10.0f;
     private float rotateSpeed = 90.0f;
+    [SerializeField] GameObject gameManagerObj;
+    private GameManager gameManager;
 
+
+    private void Awake()
+    {
+        gameManager = gameManagerObj.GetComponent<GameManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +37,7 @@ public class PlayerControl : MonoBehaviour
     //  use s/w key to let user moved
     void MovePlayer()
     {
+        if (gameManager.isGameOver) return;
         if (Input.GetKey("s"))
         {
             gameObject.transform.Translate(Vector3.back * forwardSpeed * Time.deltaTime);
@@ -44,6 +52,7 @@ public class PlayerControl : MonoBehaviour
     //  use a/d key to let user moved
     void RotationPlayer()
     {
+        if (gameManager.isGameOver) return;
         if (Input.GetKey("a"))
         {
             gameObject.transform.Rotate(Vector3.down, rotateSpeed * Time.deltaTime);
@@ -52,6 +61,17 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKey("d"))
         {
             gameObject.transform.Rotate(Vector3.up , rotateSpeed * Time.deltaTime);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (gameManager.isGameOver) return;
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = other.gameObject.GetComponentInParent<Enemy>();
+            gameManager.CatchEnemy(enemy.score);
+            Destroy(other.gameObject);
         }
     }
 }

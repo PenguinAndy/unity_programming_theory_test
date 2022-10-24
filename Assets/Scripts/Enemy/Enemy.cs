@@ -13,14 +13,19 @@ public abstract class Enemy : MonoBehaviour
     private Vector3 nextPosition;
     private float moveRange = 22.0f;
     private bool isStop = true;
+    private GameManager gameManager;
+
+    public int score = 0;
 
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.speed = m_Speed;
         m_Agent.acceleration = 999;
         m_Agent.angularSpeed = 999;
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     protected virtual void Start()
@@ -30,22 +35,27 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        float distance = Vector3.Distance(nextPosition, transform.position);
-        if (distance < 1.0f)
+        if (!gameManager.isGameOver)
         {
-            if (isStop)
+            float distance = Vector3.Distance(nextPosition, transform.position);
+            if (distance < 1.0f)
             {
-                StartCoroutine("ContinuteWalk");
-                isStop = false;
-            } else
-            {
-                if (m_Agent.isStopped == false)
+                if (isStop)
                 {
-                    m_Agent.isStopped = true;
+                    StartCoroutine("ContinuteWalk");
+                    isStop = false;
                 }
+                else
+                {
+                    if (m_Agent.isStopped == false)
+                    {
+                        m_Agent.isStopped = true;
+                    }
+                }
+
             }
-            
         }
+        
     }
 
     private void OnCollisionEnter(Collision collision)

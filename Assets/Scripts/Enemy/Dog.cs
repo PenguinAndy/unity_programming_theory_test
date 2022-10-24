@@ -7,6 +7,12 @@ public class Dog : Enemy
     private float speed = 8.0f;
     private int sleep = 2;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        score = 8;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
